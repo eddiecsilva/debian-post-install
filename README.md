@@ -1,5 +1,5 @@
 <p align="center">
-<img width="800px" src="https://user-images.githubusercontent.com/84329097/143779279-c96cc289-a9aa-4a37-bd7b-1edd30d8fd83.png" align="center" alt="white" /><br><br>
+<img width="800px" src="https://raw.githubusercontent.com/eddiecsilva/debian-post-install/main/img/project_thumb.png" align="center" alt="white" /><br><br>
  
 <!-- (site para ícones: https://shields.io/ ) -->
  
