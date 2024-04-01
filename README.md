@@ -53,12 +53,15 @@ apt-get update -oAcquire::AllowInsecureRepositories=true
 apt-get install deb-multimedia-keyring
 apt-get update; apt-get dist-upgrade
 ```
+https://img.youtube.com/vi/SSE5KYGLn8Q/maxresdefault.jpg
+
 
 ## Instalação do Nvidia CUDA
 Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativiar os repositórios "non-free-firmware contrib non-free" no Debian.
 NÃO RECOMENDO usar o script fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/SSE5KYGLn8Q?si=3l9w3TLkTXXjpJqs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![Driver NVIDIA no Debian - Guia COMPLETO para instalar e configurar](https://img.youtube.com/vi/SSE5KYGLn8Q/maxresdefault.jpg)](https://youtu.be/SSE5KYGLn8Q)
+
 
 Após ativar os repositórios extras, basta fazer uma atualização completa do sistema e executar os comandos abaixo.
 ```
