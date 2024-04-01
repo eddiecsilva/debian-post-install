@@ -27,8 +27,8 @@ A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rot
 Este roteiro aborda os seguintes tópicos
 
 Preparação do Debian 12:
+- Ativação de repositórios extras (DebMarillat).
 - Instalação drivers de vídeo.
-- Ativação de repositórios extras (Marillat).
 - Ativação do suporte a flatpaks.
 
 Programas:
@@ -45,7 +45,7 @@ Meu setup padrão considera que será utilizada uma GPU Nvidia RTX 3060TI e um p
 # Prepração do Debian 12 Bookworm
 
 ## Adicionar DebMultimedia
-O repositório DebMultimedia é um projeto não oficial que disponibiliza alguns pacotes relacionados com codecs e ferramentas de multimedia que não podem ser distribuídos oficialmente por limitações de licença. Trata-se de um repositório de terceiros, então, esteja ciente disso.
+O repositório DebMultimedia é um projeto não oficial que disponibiliza alguns pacotes relacionados com codecs e ferramentas de multimedia que não podem ser distribuídos oficialmente por limitações de licença, como o FFMPEG com suporte a aceleração de hardware Nvidia, por exemplo. Trata-se de um repositório de terceiros, então, esteja ciente disso.
 
 ```
 echo "**deb https://www.deb-multimedia.org bookworm main non-free**" > /etc/apt/sources.list.d/deb-multimedia.list
@@ -54,18 +54,45 @@ apt-get install deb-multimedia-keyring
 apt-get update; apt-get dist-upgrade
 ```
 
-**Resolução de dependências**
+## Instalação do Nvidia CUDA
+Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los siga as instruções deste tutorial. 
+NÃO RECOMENDO usar o script fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema.
+
+https://youtu.be/SSE5KYGLn8Q?si=3l9w3TLkTXXjpJqs
+
+```
+sudo apt-get install nvidia-driver nvidia-opencl-icd libcuda1 libglu1-mesa libnvidia-encode1
+```
+
+**Ativação do suporte a flatpak no sistema**
+```
+sudo apt install gpm flatpak gnome-software-plugin-flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+```
+
+
+--
+
+# Instalação do Davinci Resolve
+Faça o download da [versão gratuita do Davinci Resolve gratuito](https://www.blackmagicdesign.com/br/products/davinciresolve) no site oficial da Black Magic, em meu uso diário não tenho enfrentado nenhum problema com o instalador padrão do Resolve. 
+
+**Resolução de dependências para o Davinci Resolve:** em algumas instalações o Davinci Resolve não inicia devido a falta de dependências no sistema, uma das formas de corrigir este problema é instalar os pacotes abaixo no Debian 12.
+
 ```
 sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput0
 ```
 
-**Contornar erro de instalação "do pacote"**
-SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_18.X_Linux.run
+**OBS.:** Tenho observado alguns bugs na versão 18.6, principalmente relacionado com a gestão das timelines, por isso, recomendo que você faça alguns testes e valide se no seu ambiente está tudo funcionando corretamente. No momento, sigo utilizando a versão 18.5.
 
-## Instalação do Nvidia CUDA
+
+**Contornar erro de instalação "do pacote"**
+Este problema ocorreu comigo apenas na instalação do Davinci Resolve no openSUSE Tumbleweed, porém, deixo aqui anotado caso afete a instalação de outras pessoas.
+
 ```
-sudo apt-get install nvidia-driver nvidia-opencl-icd libcuda1 libglu1-mesa libnvidia-encode1
+SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_18.X_Linux.run
 ```
+
+
 
 ## Instalação de programas básicos
 
@@ -74,11 +101,7 @@ sudo apt-get install nvidia-driver nvidia-opencl-icd libcuda1 libglu1-mesa libnv
 flatpak install com.google.Chrome com.microsoft.Edge com.system76.Popsicle md.obsidian.Obsidian org.onlyoffice.desktopeditors
 ```
 
-**Repositórios do sistema**
-```
-sudo apt install gpm flatpak gnome-software-plugin-flatpak
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-```
+
 ```
 sudo apt install vim bashtop fish gpm yt-dlp ttf-mscorefonts-installer fonts-bebas-neue chromium
 ```
