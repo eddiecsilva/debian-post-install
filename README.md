@@ -27,7 +27,7 @@ A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rot
 Este roteiro aborda os seguintes tópicos
 
 Preparação do Debian 12:
-- Ativação de repositórios extras (DebMarillat).
+- Ativação de repositórios extras (DebMultimedia).
 - Instalação drivers de vídeo.
 - Ativação do suporte a flatpaks.
 
@@ -48,20 +48,21 @@ Meu setup padrão considera que será utilizada uma GPU Nvidia RTX 3060TI e um p
 O repositório DebMultimedia é um projeto não oficial que disponibiliza alguns pacotes relacionados com codecs e ferramentas de multimedia que não podem ser distribuídos oficialmente por limitações de licença, como o FFMPEG com suporte a aceleração de hardware Nvidia, por exemplo. Trata-se de um repositório de terceiros, então, esteja ciente disso.
 
 ```
-echo "**deb https://www.deb-multimedia.org bookworm main non-free**" > /etc/apt/sources.list.d/deb-multimedia.list
+echo "deb https://www.deb-multimedia.org bookworm main non-free" > /etc/apt/sources.list.d/deb-multimedia.list
 apt-get update -oAcquire::AllowInsecureRepositories=true
 apt-get install deb-multimedia-keyring
 apt-get update; apt-get dist-upgrade
 ```
 
 ## Instalação do Nvidia CUDA
-Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los siga as instruções deste tutorial. 
+Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativiar os repositórios "non-free-firmware contrib non-free" no Debian.
 NÃO RECOMENDO usar o script fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema.
 
-https://youtu.be/SSE5KYGLn8Q?si=3l9w3TLkTXXjpJqs
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SSE5KYGLn8Q?si=3l9w3TLkTXXjpJqs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+Após ativar os repositórios extras, basta fazer uma atualização completa do sistema e executar os comandos abaixo.
 ```
-sudo apt-get install nvidia-driver nvidia-opencl-icd libcuda1 libglu1-mesa libnvidia-encode1
+sudo apt install nvidia-driver nvidia-opencl-icd libcuda1 libglu1-mesa libnvidia-encode1
 ```
 
 **Ativação do suporte a flatpak no sistema**
