@@ -39,8 +39,9 @@ Programas:
 - Ferramentas de sistema: Timeshift, Pika Backup, Boxes, VirtualBox.
 
 ---
-Neste cenário considero que estamos partindo de uma instalação limpa do Debian 12 com o ambiente GNOME, com todas as atualizações recomendadas instaladas.
-Meu setup padrão considera que será utilizada uma GPU Nvidia RTX 3060TI e um processador AMD Ryzen 7 5700X. 
+Neste roteiro considero que estamos partindo de uma instalação padrão do Debian 12 com o ambiente GNOME, com todas as atualizações recomendadas instaladas. A **instalação mínima** pode apresentar erros na instalação do Davinci Resolve, fique atento nas mensagens de erro para instalar os pacotes extras que forem necessários.
+
+Meu setup padrão considera que será utilizada uma GPU Nvidia RTX 3060TI e um processador AMD Ryzen 7 5700X. Por fim, eu prefiro utilizar o formato flatpak sempre que possível, adapte conforme suas preferências.
 
 # Prepração do Debian 12 Bookworm
 
@@ -58,9 +59,10 @@ https://img.youtube.com/vi/SSE5KYGLn8Q/maxresdefault.jpg
 
 ## Instalação do Nvidia CUDA
 Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativiar os repositórios "non-free-firmware contrib non-free" no Debian.
+
 NÃO RECOMENDO usar o script fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema.
 
-[![Driver NVIDIA no Debian - Guia COMPLETO para instalar e configurar](https://img.youtube.com/vi/SSE5KYGLn8Q/maxresdefault.jpg)](https://youtu.be/SSE5KYGLn8Q)
+[![Driver NVIDIA no Debian - Guia COMPLETO para instalar e configurar](https://img.youtube.com/vi/SSE5KYGLn8Q/hqdefault.jpg)](https://youtu.be/SSE5KYGLn8Q)
 
 
 Após ativar os repositórios extras, basta fazer uma atualização completa do sistema e executar os comandos abaixo.
@@ -77,7 +79,7 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 
 --
 
-# Instalação do Davinci Resolve
+# Instalação do Davinci Resolve Gratuito
 Faça o download da [versão gratuita do Davinci Resolve gratuito](https://www.blackmagicdesign.com/br/products/davinciresolve) no site oficial da Black Magic, em meu uso diário não tenho enfrentado nenhum problema com o instalador padrão do Resolve. 
 
 **Resolução de dependências para o Davinci Resolve:** em algumas instalações o Davinci Resolve não inicia devido a falta de dependências no sistema, uma das formas de corrigir este problema é instalar os pacotes abaixo no Debian 12.
@@ -96,23 +98,44 @@ Este problema ocorreu comigo apenas na instalação do Davinci Resolve no openSU
 SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_18.X_Linux.run
 ```
 
+---
 
+## Instalação de ferramentas gráficas: Gimp, Inskcape, Shotcut, ColorPicker, Fontbase.
+Canivete suíço de criação de conteúdo, tratamento de imagens, desenho vetorial e edição de vídeo usando software livre.
 
-## Instalação de programas básicos
-
-**Formato Flatpak**
 ```
-flatpak install com.google.Chrome com.microsoft.Edge com.system76.Popsicle md.obsidian.Obsidian org.onlyoffice.desktopeditors
+flatpak install org.gimp.GIMP com.obsproject.Studio nl.hjdskes.gcolor3 org.flameshot.Flameshot org.inkscape.Inkscape org.shotcut.Shotcut
 ```
 
+## Instalação de navegadores web: Google Chrome, Microsoft Edge, Firefox e Chromium.
+Eu deixo os principais navegadores instalados para que possa fazer diversos tipos de testes em sites e aplicativos web.
+
+```
+flatpak install com.google.Chrome com.microsoft.Edge
+```
+
+## Instalação de programas diversos: Winff, Video Trimmer, MPV, Timeshift, Pika Backup, Boxes, VirtualBox.
+Esta sessão é totalmente livre e aqui listo vários programas auxiliares que utilizo diariamente, sugiro fortemente que daqui para baixo, ajuste conforme suas preferências.
+
+```
+flatpak install com.system76.Popsicle md.obsidian.Obsidian org.onlyoffice.desktopeditors org.gnome.gitlab.YaLTeR.VideoTrimmer org.x.Warpinator
+```
+
+```
+flatpak install com.usebottles.bottles org.gnome.World.PikaBackup com.github.tchx84.Flatseal org.gnome.Boxes com.system76.Popsicle md.obsidian.Obsidian org.onlyoffice.desktopeditors
+```
 
 ```
 sudo apt install vim bashtop fish gpm yt-dlp ttf-mscorefonts-installer fonts-bebas-neue chromium
 ```
 
+--
+
 **Extensões do GNOME**
-https://extensions.gnome.org/extension/945/cpu-power-manager/
+Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extensões em meu ambiente.
+
 https://extensions.gnome.org/extension/615/appindicator-support/
+https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki
 
 **Remoção de pacotes desnecessários**
 ```
@@ -121,7 +144,7 @@ sudo apt purge libreoffice-common gnome-games --autoremove
 
 ## Jogos
 ```
-flatpak install com.valvesoftware.Steam com.valvesoftware.Steam.Utility.MangoHud com.valvesoftware.Steam.Utility.vkBasalt com.valvesoftware.Steam.VulkanLayer.MangoHud com.github.tchx84.Flatseal
+flatpak install com.valvesoftware.Steam com.valvesoftware.Steam.Utility.MangoHud com.valvesoftware.Steam.Utility.vkBasalt com.valvesoftware.Steam.VulkanLayer.MangoHud com.github.tchx84.Flatseal com.heroicgameslauncher.hgl
 ```
 Se for necessário, libere as permissões do pacote flatpak do Steam para acessar outras unidades de disco.
 
