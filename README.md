@@ -21,10 +21,7 @@ Esse script funciona como um guia passo a passo para apoiar a pós-instalação/
 
 O objetivo deste roteiro **não é ser um script totalmente automatizado**, ele foi testado e recomendo seu uso apenas no Debian 12 Bookworm. Caso você queira seguir este roteiro em distros com outras bases, lembre-se de modificar os pacotes e comandos necessários por conta e risco, moldando conforme necessário para seu sistema, fique à vontade.
 
-A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rotina de trabalho atual, então, remova ou adicione programas de acordo com sua necessidade.
-
-**Haverão algumas configurações extras relacionadas com jogos, mas isso é um bônus.** :wink:
-
+A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rotina de trabalho atual, então, remova ou adicione programas de acordo com sua necessidade. **Haverão algumas configurações extras relacionadas com jogos, mas isso é um bônus.** :wink:
 
 Este roteiro aborda os seguintes tópicos
 
@@ -140,11 +137,19 @@ sudo apt install vim bashtop fish gpm yt-dlp ttf-mscorefonts-installer fonts-beb
 --
 
 
+# Jogos
+Instala os pacotes flatpak necessários para a Steam e Heroic Games Launcher.
+
+```
+flatpak install com.valvesoftware.Steam com.valvesoftware.Steam.Utility.MangoHud com.valvesoftware.Steam.Utility.vkBasalt com.valvesoftware.Steam.VulkanLayer.MangoHud com.heroicgameslauncher.hgl
+```
+Se for necessário, utilizando o FlatSeal libere as permissões do pacote flatpak do Steam para acessar outras unidades de disco.
+
+
 **Extensões do GNOME**
 Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extensões em meu ambiente.
-
-https://extensions.gnome.org/extension/615/appindicator-support/
-https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki
+- [AppIndicator and KStatusNotifierItem Support](https://extensions.gnome.org/extension/615/appindicator-support/)
+- [GSConnect](https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki)
 
 
 **Remoção de pacotes desnecessários**
@@ -153,14 +158,3 @@ Limpeza de pacotes que são instalados por padrão e que não utilizo em minha r
 ```
 sudo apt purge libreoffice-common gnome-games --autoremove
 ```
-
-
----
-
-## Jogos
-Instala os pacotes flatpak necessários para a Steam e Heroic Games Launcher.
-
-```
-flatpak install com.valvesoftware.Steam com.valvesoftware.Steam.Utility.MangoHud com.valvesoftware.Steam.Utility.vkBasalt com.valvesoftware.Steam.VulkanLayer.MangoHud com.heroicgameslauncher.hgl
-```
-Se for necessário, utilizando o FlatSeal libere as permissões do pacote flatpak do Steam para acessar outras unidades de disco.
