@@ -30,7 +30,7 @@ Preparação do Debian 12:
 - Instalação drivers de vídeo proprietários Nvidia.
 - Ativação do suporte a flatpaks.
 
-INstalação dos programas:
+Instalação dos programas:
 - Davinci Resolve Gratuito.
 - Ferramentas gráficas: Gimp, Inskcape, Shotcut, ColorPicker, Fontbase.
 - Navegadores web: Google Chrome, Microsoft Edge, Firefox e Chromium.
@@ -97,6 +97,24 @@ Este problema ocorreu comigo apenas na instalação do Davinci Resolve no openSU
 
 ```
 SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_18.X_Linux.run
+```
+
+**Resolver problemas com libs do Davinci Resolve"**
+O pacote do Davinci Resolve incorpora uma série de bibliotecas que podem conflitar com as versões disponíveis em algumas distros Linux. Existem diversas forma de contornar esta situação caso ocorra com você, nesta página da Arch Wiki existem diversas dicas que podem ser úteis. 
+Em minhas instalações, geralmente apagar as libs abaixo já resolvem o problema do Resolve. Sugiro que você faça um backup dos arquivos antes de removê-los do sistema. :-)
+
+
+O comando abaixo cria uma cópia dos arquivos das bibliotecas dentro da home do usuário resolvendo links simbólicos.
+```
+tar -cvhzf ~/backup-libs-resolve.tar.gz /opt/resolve/libs/libgmodule-2.0.so* /opt/resolve/libs/libglib-2.0.so* /opt/resolve/libs/libgio-2.0.so*
+```
+
+Agora é só apagar as bibliotecas que geralmente dão problemas. **Muita atenção ao executar estes comandos, qualquer erro de digitação pode gerar uma quebra severa do sistema.**
+
+```
+sudo rm /opt/resolve/libs/libgmodule-2.0.so*
+sudo rm /opt/resolve/libs/libglib-2.0.so*
+sudo rm /opt/resolve/libs/libgio-2.0.so*
 ```
 
 ---
