@@ -100,7 +100,7 @@ SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_18.X_Linux.run
 ```
 
 **Resolver problemas com libs do Davinci Resolve"**
-O pacote do Davinci Resolve incorpora uma série de bibliotecas que podem conflitar com as versões disponíveis em algumas distros Linux. Existem diversas forma de contornar esta situação caso ocorra com você, nesta página da Arch Wiki existem diversas dicas que podem ser úteis. 
+O pacote do Davinci Resolve incorpora uma série de bibliotecas que podem conflitar com as versões disponíveis em algumas distros Linux. Existem diversas forma de contornar esta situação caso ocorra com você, nesta página da [Arch Wiki](https://wiki.archlinux.org/title/DaVinci_Resolve) existem diversas dicas que podem ser úteis. 
 Em minhas instalações, geralmente apagar as libs abaixo já resolvem o problema do Resolve. Sugiro que você faça um backup dos arquivos antes de removê-los do sistema. :-)
 
 
