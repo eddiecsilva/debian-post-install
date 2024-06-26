@@ -10,6 +10,7 @@
 
 </p>
 
+
 # AVISO
 Ao usar este roteiro você assume que entende os riscos e assume total responsabilidade por suas ações. Todos os arquivos que fazem parte desse repositório são distribuídos livremente para serem adaptados. Porém, não há nenhuma garantia implícita ou explícita do seu funcionamento.
 
@@ -40,11 +41,13 @@ Instalação dos programas:
 
 ---
 
+
 Neste roteiro considero que estamos partindo de uma instalação padrão do Debian 12 com o ambiente GNOME, com todas as atualizações recomendadas instaladas. A **instalação mínima** pode apresentar erros na instalação do Davinci Resolve, fique atento nas mensagens de erro para instalar os pacotes extras que forem necessários.
 
 Meu setup padrão considera que será utilizada uma GPU Nvidia RTX 3060TI e um processador AMD Ryzen 7 5700X. Por fim, eu prefiro utilizar o formato flatpak sempre que possível, adapte conforme suas preferências.
 
-# Prepração do Debian 12 Bookworm
+
+# Preparação do Debian 12 Bookworm
 
 ## Ativação de repositórios extras (DebMultimedia)
 O repositório DebMultimedia é um projeto não oficial que disponibiliza alguns pacotes relacionados com codecs e ferramentas de multimedia que não podem ser distribuídos oficialmente por limitações de licença, como o FFMPEG com suporte a aceleração de hardware Nvidia, por exemplo. Trata-se de um repositório de terceiros, então, esteja ciente disso.
@@ -59,7 +62,7 @@ apt-get update; apt-get dist-upgrade
 ## Instalação drivers de vídeo proprietários Nvidia
 Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativiar os repositórios "non-free-firmware contrib non-free" no Debian. Para poder utilizar os Davinci Resolve e outros programas que usam vídeo acelerado por hardware além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas.
 
-NÃO RECOMENDO usar o script .RUN fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema.
+NÃO RECOMENDO usar o script .RUN fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema. Ainda não fiz testes com o novo driver opensource da NVIDIA, uma vez que ele ainda não está oficialmente disponível nos repositórios do Debian 12.
 
 [![Driver NVIDIA no Debian - Guia COMPLETO para instalar e configurar](https://img.youtube.com/vi/SSE5KYGLn8Q/hqdefault.jpg)](https://youtu.be/SSE5KYGLn8Q)
 
@@ -78,8 +81,6 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 ```
 
 
-
-
 # Instalação do Davinci Resolve Gratuito
 Faça o download da [versão gratuita do Davinci Resolve gratuito](https://www.blackmagicdesign.com/br/products/davinciresolve) no site oficial da Black Magic, em meu uso diário não tenho enfrentado nenhum problema com o instalador padrão do Resolve. 
 
@@ -89,7 +90,7 @@ Faça o download da [versão gratuita do Davinci Resolve gratuito](https://www.b
 sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput0
 ```
 
-**OBS.:** Tenho observado alguns bugs na versão 18.6, principalmente relacionado com a gestão das timelines, por isso, recomendo que você faça alguns testes e valide se no seu ambiente está tudo funcionando corretamente. No momento, sigo utilizando a versão 18.5.
+**OBS.:** Tenho observado alguns bugs na versão 18.6 e posteriores, principalmente relacionado com a gestão das timelines, por isso, recomendo que você faça alguns testes e valide se no seu ambiente está tudo funcionando corretamente. No momento, sigo utilizando a versão 18.5.
 
 
 **Contornar erro de instalação "do pacote"**
@@ -168,6 +169,7 @@ Se for necessário, utilizando o FlatSeal libere as permissões do pacote flatpa
 Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extensões em meu ambiente.
 - [AppIndicator and KStatusNotifierItem Support](https://extensions.gnome.org/extension/615/appindicator-support/)
 - [GSConnect](https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki)
+- [Blur My Shell](https://github.com/aunetx/blur-my-shell)
 
 
 **Remoção de pacotes desnecessários**
