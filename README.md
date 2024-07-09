@@ -153,7 +153,7 @@ flatpak install com.usebottles.bottles com.github.tchx84.Flatseal org.gnome.Boxe
 ```
 
 ```shellscript
-sudo apt install vim bashtop fish gpm yt-dlp ttf-mscorefonts-installer fonts-bebas-neue chromium
+sudo apt install vim bashtop fish gpm yt-dlp ttf-mscorefonts-installer fonts-bebas-neue chromium aria2
 ```
 
 Obs.: parei de utilizar o Pika Backup após sofrer 2 corrompimentos seguidos de backup que não puderam ser recuperados.
