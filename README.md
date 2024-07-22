@@ -44,6 +44,10 @@ Instalação dos programas:
 
 Neste roteiro considero que estamos partindo de uma instalação padrão do Debian 12 com o ambiente GNOME, com todas as atualizações recomendadas instaladas. A **instalação mínima** pode apresentar erros na instalação do Davinci Resolve, fique atento nas mensagens de erro para instalar os pacotes extras que forem necessários.
 
+Para mais informações sobre o processo de instalação, recomendo assistir o vídeo abaixo.
+
+[![Aprenda a domar o instalador do Debian Linux ](https://img.youtube.com/vi/QOuspK8MARk/mqdefault.jpg)](https://youtu.be/QOuspK8MARk)
+
 Meu setup padrão considera que será utilizada uma GPU Nvidia RTX 3060TI e um processador AMD Ryzen 7 5700X. Por fim, eu prefiro utilizar o formato flatpak sempre que possível, adapte conforme suas preferências.
 
 
