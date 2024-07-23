@@ -22,7 +22,7 @@ Esse roteiro funciona como um guia passo a passo para apoiar a pós-instalação
 
 O objetivo deste roteiro **não é ser um script totalmente automatizado**, utilizo ele em meu ambiente, sendo  recomendado e testado apenas no Debian 12 Bookworm. Caso você queira seguir este roteiro em distros com outras bases, lembre-se de modificar os pacotes e comandos necessários por conta e risco, moldando conforme necessário para seu sistema, fique à vontade.
 
-A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rotina de trabalho atual, então, remova ou adicione programas de acordo com sua necessidade. **Haverão algumas configurações extras relacionadas com jogos, mas isso é um bônus.** :wink:
+A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rotina de trabalho atual, então, remova ou adicione programas de acordo com sua necessidade. **Haverão algumas configurações extras relacionadas com jogos e ajustes cosméticos, mas isso é um bônus.** :wink:
 
 Este roteiro aborda os seguintes tópicos
 
@@ -44,11 +44,17 @@ Instalação dos programas:
 
 Neste roteiro considero que estamos partindo de uma instalação padrão do Debian 12 com o ambiente GNOME, com todas as atualizações recomendadas instaladas. A **instalação mínima** pode apresentar erros na instalação do Davinci Resolve, fique atento nas mensagens de erro para instalar os pacotes extras que forem necessários.
 
+Para entender melhor as diferenças entre as versões do Debian, recomendo assistir este vídeo.
+[![Então, esse é o SEGREDO da ESTABILIDADE do Debian?](https://img.youtube.com/vi/JK03ZcXYAoE/mqdefault.jpg)](https://youtube.com/watch?v=JK03ZcXYAoE)
+
 Para mais informações sobre o processo de instalação, recomendo assistir o vídeo abaixo.
 
 [![Aprenda a domar o instalador do Debian Linux ](https://img.youtube.com/vi/QOuspK8MARk/mqdefault.jpg)](https://youtu.be/QOuspK8MARk)
 
 Meu setup padrão considera que será utilizada uma GPU Nvidia RTX 3060TI e um processador AMD Ryzen 7 5700X. Por fim, eu prefiro utilizar o formato flatpak sempre que possível, adapte conforme suas preferências.
+
+
+---
 
 
 # Preparação do Debian 12 Bookworm
@@ -80,12 +86,15 @@ sudo apt install nvidia-driver nvidia-opencl-icd libcuda1 libglu1-mesa libnvidia
 **Ativação do suporte a Flatpak no sistema**
 
 ```shellscript
-sudo apt install gpm flatpak gnome-software-plugin-flatpak
+sudo apt install flatpak gnome-software-plugin-flatpak
 ```
 
 ```shellscript
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
+
+
+---
 
 
 # Instalação do Davinci Resolve Gratuito
@@ -145,7 +154,7 @@ flatpak install com.google.Chrome com.microsoft.Edge
 ```
 
 
-## Instalação de programas diversos: Winff, Video Trimmer, MPV, Timeshift, Pika Backup, Boxes, VirtualBox.
+## Instalação de programas diversos: Winff, Video Trimmer, MPV, Timeshift, Boxes, VirtualBox.
 Esta sessão é totalmente livre e aqui listo vários programas auxiliares que utilizo diariamente, sugiro fortemente que daqui para baixo, ajuste conforme suas preferências.
 
 ```shellscript
@@ -153,7 +162,7 @@ flatpak install com.system76.Popsicle md.obsidian.Obsidian org.onlyoffice.deskto
 ```
 
 ```shellscript
-flatpak install com.usebottles.bottles com.github.tchx84.Flatseal org.gnome.Boxes #org.gnome.World.PikaBackup
+flatpak install com.usebottles.bottles com.github.tchx84.Flatseal org.gnome.Boxes
 ```
 
 ```shellscript
@@ -166,7 +175,9 @@ Obs.: parei de utilizar o Pika Backup após sofrer 2 corrompimentos seguidos de 
 ---
 
 
-# Jogos
+# Configurações extras
+
+## Jogos
 Instala os pacotes flatpak necessários para a Steam e Heroic Games Launcher.
 
 ```shellscript
@@ -175,11 +186,12 @@ flatpak install com.valvesoftware.Steam com.valvesoftware.Steam.Utility.MangoHud
 Se for necessário, utilizando o FlatSeal libere as permissões do pacote flatpak do Steam para acessar outras unidades de disco.
 
 
-**Extensões do GNOME**
+## Extensões do GNOME
 Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extensões em meu ambiente.
 - [AppIndicator and KStatusNotifierItem Support](https://extensions.gnome.org/extension/615/appindicator-support/)
 - [GSConnect](https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki)
 - [Blur My Shell](https://github.com/aunetx/blur-my-shell)
+- [Screenshot window Sizer](https://extensions.gnome.org/extension/881/screenshot-window-sizer/)
 
 
 **Remoção de pacotes desnecessários**
@@ -187,4 +199,13 @@ Limpeza de pacotes que são instalados por padrão e que não utilizo em minha r
 
 ```shellscript
 sudo apt purge libreoffice-common gnome-games --autoremove
+```
+
+**Tema de ícones**
+Nas minhas instalações eu gosto de utilizar o tema para ícones [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) na variante dark, ele existe nos repositórios oficiais. Um dos motivos para utilizar este tema é que ele cobre todos os programas que eu uso, no tema Adwaita padrão, faltam ícones para diversos programas.
+
+Basta instalar o tema e ativar usando o GNOME Ajustes.
+
+```shellscript
+sudo apt install papirus-icon-theme
 ```
