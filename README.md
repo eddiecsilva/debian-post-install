@@ -70,7 +70,7 @@ apt-get update; apt-get dist-upgrade
 ```
 
 ## Instalação drivers de vídeo proprietários Nvidia
-Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativiar os repositórios "non-free-firmware contrib non-free" no Debian. Para poder utilizar os Davinci Resolve e outros programas que usam vídeo acelerado por hardware além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas.
+Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativiar os repositórios "non-free-firmware contrib non-free" no Debian. Para poder utilizar os Davinci Resolve e outros programas que usam vídeo acelerado por hardware, além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas.
 
 NÃO RECOMENDO usar o script .RUN fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema. Ainda não fiz testes com o novo driver opensource da NVIDIA, uma vez que ele ainda não está oficialmente disponível nos repositórios do Debian 12.
 
@@ -80,7 +80,7 @@ NÃO RECOMENDO usar o script .RUN fornecido pela Nvidia, use os pacotes fornecid
 Após ativar os repositórios extras, basta fazer uma atualização completa do sistema e executar os comandos abaixo.
 
 ```shellscript
-sudo apt install nvidia-driver nvidia-opencl-icd libcuda1 libglu1-mesa libnvidia-encode1 libnvoptix1
+sudo apt install nvidia-driver nvidia-opencl-icd firmware-misc-nonfree nvidia-cuda-dev nvidia-cuda-toolkit libcuda1 libglu1-mesa libnvidia-encode1 libnvoptix1
 ```
 
 **Ativação do suporte a Flatpak no sistema**
@@ -110,11 +110,20 @@ sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput
 
 
 **Contornar erro de instalação "do pacote"**
-Este problema ocorreu comigo apenas na instalação do Davinci Resolve no openSUSE Tumbleweed, porém, deixo aqui anotado caso afete a instalação de outras pessoas.
+Este problema ocorreu comigo apenas na instalação do Davinci Resolve no openSUSE Tumbleweed e em instalações feitas no modo avançado do Debian. Ao executar o instalador, é exibida uma mensagem de que exitem pacotes faltando no sistema e mesmo instalando os pacotes o instalador não inicia.
+Deixo aqui anotado caso afete a instalação de outras pessoas.
 
 ```shellscript
 SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_18.X_Linux.run
 ```
+
+**Corrigir o erro com instalador gráfico do Resolve "libfuse2"**
+Caso o instalador gráfico do Davinci Resolve não abra, execute ele via terminal para ver qual é a mensagem de erro. Caso apareça algo similar a "*libfuse.so.2: cannot open shared object file*" - use o comando abaixo para contornar o problema.
+
+```shellscript
+apt install -y libfuse2
+```
+
 
 **Resolver problemas com libs do Davinci Resolve"**
 O pacote do Davinci Resolve incorpora uma série de bibliotecas que podem conflitar com as versões disponíveis em algumas distros Linux. Existem formas diferentes de contornar esta situação caso ocorra com você, nesta página da [Arch Wiki](https://wiki.archlinux.org/title/DaVinci_Resolve) existem diversas dicas que podem ser úteis. 
@@ -177,7 +186,7 @@ Obs.: parei de utilizar o Pika Backup após sofrer 2 corrompimentos seguidos de 
 
 # Configurações extras
 
-## Jogos
+**Jogos**
 Instala os pacotes flatpak necessários para a Steam e Heroic Games Launcher.
 
 ```shellscript
@@ -186,7 +195,7 @@ flatpak install com.valvesoftware.Steam com.valvesoftware.Steam.Utility.MangoHud
 Se for necessário, utilizando o FlatSeal libere as permissões do pacote flatpak do Steam para acessar outras unidades de disco.
 
 
-## Extensões do GNOME
+**Extensões do GNOME**
 Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extensões em meu ambiente.
 - [AppIndicator and KStatusNotifierItem Support](https://extensions.gnome.org/extension/615/appindicator-support/)
 - [GSConnect](https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki)
