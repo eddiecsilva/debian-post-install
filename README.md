@@ -70,7 +70,7 @@ apt-get update; apt-get dist-upgrade
 ```
 
 ## Instalação drivers de vídeo proprietários Nvidia
-Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativiar os repositórios "non-free-firmware contrib non-free" no Debian. Para poder utilizar os Davinci Resolve e outros programas que usam vídeo acelerado por hardware, além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas.
+Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativar os repositórios "non-free-firmware contrib non-free" no Debian. Para poder utilizar os Davinci Resolve e outros programas que usam vídeo acelerado por hardware, além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas.
 
 NÃO RECOMENDO usar o script .RUN fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema. Ainda não fiz testes com o novo driver opensource da NVIDIA, uma vez que ele ainda não está oficialmente disponível nos repositórios do Debian 12.
 
@@ -100,7 +100,9 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 # Instalação do Davinci Resolve Gratuito
 Faça o download da [versão gratuita do Davinci Resolve gratuito](https://www.blackmagicdesign.com/br/products/davinciresolve) no site oficial da Black Magic, em meu uso diário não tenho enfrentado nenhum problema com o instalador padrão do Resolve. 
 
-**Resolução de dependências para o Davinci Resolve:** em algumas instalações o Davinci Resolve não inicia devido a falta de dependências no sistema, uma das formas de corrigir este problema é instalar os pacotes abaixo no Debian 12.
+**Resolução de dependências para o Davinci Resolve**
+
+Em algumas instalações o Davinci Resolve não inicia devido a falta de dependências no sistema, uma das formas de corrigir este problema é instalar os pacotes abaixo no Debian 12.
 
 ```shellscript
 sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput0
@@ -109,8 +111,10 @@ sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput
 **OBS.:** Tenho observado alguns bugs na versão 18.6 e posteriores, principalmente relacionado com a gestão das timelines, por isso, recomendo que você faça alguns testes e valide se no seu ambiente está tudo funcionando corretamente. No momento, sigo utilizando a versão 18.5.
 
 
-**Contornar erro de instalação "do pacote"**
+**Contornar erro de instalação "do pacote"** 
+
 Este problema ocorreu comigo apenas na instalação do Davinci Resolve no openSUSE Tumbleweed e em instalações feitas no modo avançado do Debian. Ao executar o instalador, é exibida uma mensagem de que exitem pacotes faltando no sistema e mesmo instalando os pacotes o instalador não inicia.
+
 Deixo aqui anotado caso afete a instalação de outras pessoas.
 
 ```shellscript
@@ -126,6 +130,7 @@ apt install -y libfuse2
 
 
 **Resolver problemas com libs do Davinci Resolve"**
+
 O pacote do Davinci Resolve incorpora uma série de bibliotecas que podem conflitar com as versões disponíveis em algumas distros Linux. Existem formas diferentes de contornar esta situação caso ocorra com você, nesta página da [Arch Wiki](https://wiki.archlinux.org/title/DaVinci_Resolve) existem diversas dicas que podem ser úteis. 
 Em minhas instalações, geralmente apagar as libs abaixo já resolvem o problema do Resolve. Sugiro que você faça um backup dos arquivos antes de removê-los do sistema. :-)
 
@@ -146,8 +151,10 @@ sudo rm /opt/resolve/libs/libgio-2.0.so*
 
 ---
 
+# Preparação do ambiente para produtividade
 
 ## Instalação de ferramentas gráficas: Gimp, Inskcape, Shotcut, ColorPicker.
+
 Canivete suíço de criação de conteúdo, tratamento de imagens, desenho vetorial e edição de vídeo usando software livre.
 
 ```shellscript
@@ -156,6 +163,7 @@ flatpak install org.gimp.GIMP com.obsproject.Studio nl.hjdskes.gcolor3 org.flame
 
 
 ## Instalação de navegadores web: Google Chrome, Microsoft Edge, Firefox e Chromium.
+
 Eu deixo os principais navegadores instalados para que possa fazer diversos tipos de testes em sites e aplicativos web. O Firefox e o Chromium instalo as versões do repositório do Debian.
 
 ```shellscript
@@ -164,6 +172,7 @@ flatpak install com.google.Chrome com.microsoft.Edge
 
 
 ## Instalação de programas diversos: Winff, Video Trimmer, MPV, Timeshift, Boxes, VirtualBox.
+
 Esta sessão é totalmente livre e aqui listo vários programas auxiliares que utilizo diariamente, sugiro fortemente que daqui para baixo, ajuste conforme suas preferências.
 
 ```shellscript
@@ -187,6 +196,7 @@ Obs.: parei de utilizar o Pika Backup após sofrer 2 corrompimentos seguidos de 
 # Configurações extras
 
 **Jogos**
+
 Instala os pacotes flatpak necessários para a Steam e Heroic Games Launcher.
 
 ```shellscript
@@ -196,6 +206,7 @@ Se for necessário, utilizando o FlatSeal libere as permissões do pacote flatpa
 
 
 **Extensões do GNOME**
+
 Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extensões em meu ambiente.
 - [AppIndicator and KStatusNotifierItem Support](https://extensions.gnome.org/extension/615/appindicator-support/)
 - [GSConnect](https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki)
@@ -204,6 +215,7 @@ Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extens�
 
 
 **Remoção de pacotes desnecessários**
+
 Limpeza de pacotes que são instalados por padrão e que não utilizo em minha rotina.
 
 ```shellscript
@@ -211,6 +223,7 @@ sudo apt purge libreoffice-common gnome-games --autoremove
 ```
 
 **Tema de ícones**
+
 Nas minhas instalações eu gosto de utilizar o tema para ícones [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) na variante dark, ele existe nos repositórios oficiais. Um dos motivos para utilizar este tema é que ele cobre todos os programas que eu uso, no tema Adwaita padrão, faltam ícones para diversos programas.
 
 Basta instalar o tema e ativar usando o GNOME Ajustes.
