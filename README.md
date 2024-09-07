@@ -98,6 +98,11 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 
 
 # Instalação do Davinci Resolve Gratuito
+```
+OBSERVAÇÃO IMPORTANTE: O Davinci Resolve 19.0 e mais recentes exigem que a versão mínima do CUDA seja a 12.3, o que inviabiliza sua utilização no Debian 12 Bookworm por padrão. Atualmente a versão do CUDA suportada pelo driver 535.x é a 12.2.
+```
+
+
 Faça o download da [versão gratuita do Davinci Resolve gratuito](https://www.blackmagicdesign.com/br/products/davinciresolve) no site oficial da Black Magic, em meu uso diário não tenho enfrentado nenhum problema com o instalador padrão do Resolve. 
 
 **Resolução de dependências para o Davinci Resolve**
@@ -122,6 +127,7 @@ SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_18.X_Linux.run
 ```
 
 **Corrigir o erro com instalador gráfico do Resolve "libfuse2"**
+
 Caso o instalador gráfico do Davinci Resolve não abra, execute ele via terminal para ver qual é a mensagem de erro. Caso apareça algo similar a "*libfuse.so.2: cannot open shared object file*" - use o comando abaixo para contornar o problema.
 
 ```shellscript
@@ -211,7 +217,7 @@ Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extens�
 - [AppIndicator and KStatusNotifierItem Support](https://extensions.gnome.org/extension/615/appindicator-support/)
 - [GSConnect](https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki)
 - [Blur My Shell](https://github.com/aunetx/blur-my-shell)
-- [Screenshot window Sizer](https://extensions.gnome.org/extension/881/screenshot-window-sizer/)
+- [Screenshot Window Sizer](https://extensions.gnome.org/extension/881/screenshot-window-sizer/)
 
 
 **Remoção de pacotes desnecessários**
