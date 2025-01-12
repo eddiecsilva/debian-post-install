@@ -14,8 +14,7 @@
 # AVISO
 Ao usar este roteiro você assume que entende os riscos e assume total responsabilidade por suas ações. Todos os arquivos que fazem parte desse repositório são distribuídos livremente para serem adaptados. Porém, não há nenhuma garantia implícita ou explícita do seu funcionamento.
 
----
-
+</br>
 
 # Objetivos
 Esse roteiro funciona como um guia passo a passo para apoiar a pós-instalação/configuração de uma máquina de trabalho baseada em Debian 12 para atividades de edição de vídeo, edição fotográfica e redação para web.
@@ -24,12 +23,16 @@ O objetivo deste roteiro **não é ser um script totalmente automatizado**, util
 
 A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rotina de trabalho atual, então, remova ou adicione programas de acordo com sua necessidade. **Haverão algumas configurações extras relacionadas com jogos e ajustes cosméticos, mas isso é um bônus.** :wink:
 
-Este roteiro aborda os seguintes tópicos
+</br>
+
+## Este roteiro aborda os seguintes tópicos
 
 Preparação do Debian 12:
 - Ativação de repositórios extras (DebMultimedia).
 - Instalação drivers de vídeo proprietários Nvidia.
 - Ativação do suporte a flatpaks.
+
+</br>
 
 Instalação dos programas:
 - Davinci Resolve Gratuito.
@@ -38,24 +41,23 @@ Instalação dos programas:
 - Utilários diversos: Winff, Video Trimmer, MPV.
 - Ferramentas de sistema: Timeshift, Pika Backup, Boxes, VirtualBox.
 
-
----
-
+</br>
 
 Neste roteiro considero que estamos partindo de uma instalação padrão do Debian 12 com o ambiente GNOME, com todas as atualizações recomendadas instaladas. A **instalação mínima** pode apresentar erros na instalação do Davinci Resolve, fique atento nas mensagens de erro para instalar os pacotes extras que forem necessários.
 
-Para entender melhor as diferenças entre as versões do Debian, recomendo assistir este vídeo.
+Para entender melhor as diferenças entre as versões do Debian, recomendo assistir este vídeo.</br>
+
 [![Então, esse é o SEGREDO da ESTABILIDADE do Debian?](https://img.youtube.com/vi/JK03ZcXYAoE/mqdefault.jpg)](https://youtube.com/watch?v=JK03ZcXYAoE)
 
-Para mais informações sobre o processo de instalação, recomendo assistir o vídeo abaixo.
+</br>
 
+Para mais informações sobre o processo de instalação, recomendo assistir o vídeo abaixo.
+</br>
 [![Aprenda a domar o instalador do Debian Linux ](https://img.youtube.com/vi/QOuspK8MARk/mqdefault.jpg)](https://youtu.be/QOuspK8MARk)
 
 Meu setup padrão considera que será utilizada uma GPU Nvidia RTX 3060TI e um processador AMD Ryzen 7 5700X. Por fim, eu prefiro utilizar o formato flatpak sempre que possível, adapte conforme suas preferências.
 
-
----
-
+</br>
 
 # Preparação do Debian 12 Bookworm
 
@@ -69,10 +71,12 @@ apt-get install deb-multimedia-keyring
 apt-get update; apt-get dist-upgrade
 ```
 
+</br>
+
 ## Instalação drivers de vídeo proprietários Nvidia
 Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativar os repositórios "non-free-firmware contrib non-free" no Debian. Para poder utilizar os Davinci Resolve e outros programas que usam vídeo acelerado por hardware, além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas.
 
-NÃO RECOMENDO usar o script .RUN fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema. Ainda não fiz testes com o novo driver opensource da NVIDIA, uma vez que ele ainda não está oficialmente disponível nos repositórios do Debian 12.
+**NÃO RECOMENDO** usar o script .RUN fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema. Ainda não fiz testes com o novo driver open source da NVIDIA, uma vez que ele ainda não está oficialmente disponível nos repositórios do Debian 12.
 
 [![Driver NVIDIA no Debian - Guia COMPLETO para instalar e configurar](https://img.youtube.com/vi/SSE5KYGLn8Q/mqdefault.jpg)](https://youtu.be/SSE5KYGLn8Q)
 
@@ -82,6 +86,8 @@ Após ativar os repositórios extras, basta fazer uma atualização completa do 
 ```shellscript
 sudo apt install nvidia-driver nvidia-opencl-icd firmware-misc-nonfree nvidia-cuda-dev nvidia-cuda-toolkit libcuda1 libglu1-mesa libnvidia-encode1 libnvoptix1
 ```
+
+</br>
 
 **Ativação do suporte a Flatpak no sistema**
 
@@ -93,17 +99,17 @@ sudo apt install flatpak gnome-software-plugin-flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
 
-
----
-
+</br>
 
 # Instalação do Davinci Resolve Gratuito
 ```
 OBSERVAÇÃO IMPORTANTE: O Davinci Resolve 19.0 e mais recentes exigem que a versão mínima do CUDA seja a 12.3, o que inviabiliza sua utilização no Debian 12 Bookworm por padrão. Atualmente a versão do CUDA suportada pelo driver 535.x é a 12.2.
 ```
+</br>
 
+Faça o download da versão gratuita do [Davinci Resolve](https://www.blackmagicdesign.com/br/products/davinciresolve) no site oficial da Black Magic, em meu uso diário não tenho enfrentado nenhum problema com o instalador padrão além dos citados neste guia. 
 
-Faça o download da [versão gratuita do Davinci Resolve gratuito](https://www.blackmagicdesign.com/br/products/davinciresolve) no site oficial da Black Magic, em meu uso diário não tenho enfrentado nenhum problema com o instalador padrão do Resolve. 
+</br>
 
 **Resolução de dependências para o Davinci Resolve**
 
@@ -115,6 +121,7 @@ sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput
 
 **OBS.:** Tenho observado alguns bugs na versão 18.6 e posteriores, principalmente relacionado com a gestão das timelines, por isso, recomendo que você faça alguns testes e valide se no seu ambiente está tudo funcionando corretamente. No momento, sigo utilizando a versão 18.5.
 
+</br>
 
 **Contornar erro de instalação "do pacote"** 
 
@@ -126,6 +133,8 @@ Deixo aqui anotado caso afete a instalação de outras pessoas.
 SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_18.X_Linux.run
 ```
 
+</br>
+
 **Corrigir o erro com instalador gráfico do Resolve "libfuse2"**
 
 Caso o instalador gráfico do Davinci Resolve não abra, execute ele via terminal para ver qual é a mensagem de erro. Caso apareça algo similar a "*libfuse.so.2: cannot open shared object file*" - use o comando abaixo para contornar o problema.
@@ -134,6 +143,7 @@ Caso o instalador gráfico do Davinci Resolve não abra, execute ele via termina
 apt install -y libfuse2
 ```
 
+</br>
 
 **Resolver problemas com libs do Davinci Resolve"**
 
@@ -155,7 +165,7 @@ sudo rm /opt/resolve/libs/libglib-2.0.so*
 sudo rm /opt/resolve/libs/libgio-2.0.so*
 ```
 
----
+</br></br>
 
 # Preparação do ambiente para produtividade
 
@@ -167,6 +177,7 @@ Canivete suíço de criação de conteúdo, tratamento de imagens, desenho vetor
 flatpak install org.gimp.GIMP com.obsproject.Studio nl.hjdskes.gcolor3 org.flameshot.Flameshot org.inkscape.Inkscape org.shotcut.Shotcut
 ```
 
+</br>
 
 ## Instalação de navegadores web: Google Chrome, Microsoft Edge, Firefox e Chromium.
 
@@ -176,6 +187,7 @@ Eu deixo os principais navegadores instalados para que possa fazer diversos tipo
 flatpak install com.google.Chrome com.microsoft.Edge
 ```
 
+</br>
 
 ## Instalação de programas diversos: Winff, Video Trimmer, MPV, Timeshift, Boxes, VirtualBox.
 
@@ -195,13 +207,11 @@ sudo apt install vim bashtop fish gpm yt-dlp ttf-mscorefonts-installer fonts-beb
 
 Obs.: parei de utilizar o Pika Backup após sofrer 2 corrompimentos seguidos de backup que não puderam ser recuperados.
 
-
----
-
+</br>
 
 # Configurações extras
 
-**Jogos**
+**Plataformas de Jogos**
 
 Instala os pacotes flatpak necessários para a Steam e Heroic Games Launcher.
 
@@ -210,6 +220,7 @@ flatpak install com.valvesoftware.Steam com.valvesoftware.Steam.Utility.MangoHud
 ```
 Se for necessário, utilizando o FlatSeal libere as permissões do pacote flatpak do Steam para acessar outras unidades de disco.
 
+</br>
 
 **Extensões do GNOME**
 
@@ -219,6 +230,7 @@ Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extens�
 - [Blur My Shell](https://github.com/aunetx/blur-my-shell)
 - [Screenshot Window Sizer](https://extensions.gnome.org/extension/881/screenshot-window-sizer/)
 
+</br>
 
 **Remoção de pacotes desnecessários**
 
@@ -227,6 +239,8 @@ Limpeza de pacotes que são instalados por padrão e que não utilizo em minha r
 ```shellscript
 sudo apt purge libreoffice-common gnome-games --autoremove
 ```
+
+</br>
 
 **Tema de ícones**
 
