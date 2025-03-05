@@ -11,8 +11,15 @@
 </p>
 
 
-# AVISO
+# AVISO 01
 Ao usar este roteiro você assume que entende os riscos e assume total responsabilidade por suas ações. Todos os arquivos que fazem parte desse repositório são distribuídos livremente para serem adaptados. Porém, não há nenhuma garantia implícita ou explícita do seu funcionamento.
+
+# AVISO 02
+Devido a versão do driver Nvidia inclusa no **Debian estável não oferecer uma versão compatível do CUDA**, não é possível executar versões recentes do Davinci Resolve (acima do 19). Apenas drivers proprietários da Nvidia acima da versão 550 fornecem as versões necessárias das bibliotecas. Em meus testes, **não foi posível executar o Davinci Resolve corretamente ao instalar o driver diretamente dos repositórios da NVIDIA**.
+
+# AVISO 03
+O Debian 13 (Trixie) também não fornece os drivers necessários para executar o Resolve. No momento, recomendo utilizar outra distribuição caso esse programa seja importante no seu fluxo de trabalho.
+
 
 </br>
 
