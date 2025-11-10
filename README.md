@@ -1,5 +1,5 @@
 <p align="center">
-<img width="800px" src="https://raw.githubusercontent.com/eddiecsilva/debian-post-install/main/img/project_thumb.png" align="center" alt="white" /><br><br>
+<img width="800px" src="https://raw.githubusercontent.com/eddiecsilva/debian-post-install/main/img/project_thumb.png" align="center" alt="white" /></br>
  
 <!-- (site para ícones: https://shields.io/ ) -->
  
@@ -9,252 +9,346 @@
 <img alt="GitHub commit activity (branch)" src="https://img.shields.io/github/commit-activity/y/eddiecsilva/debian-post-install">
 
 </p>
+</br>
 
-
-# AVISO 01
-Ao usar este roteiro você assume que entende os riscos e assume total responsabilidade por suas ações. Todos os arquivos que fazem parte desse repositório são distribuídos livremente para serem adaptados. Porém, não há nenhuma garantia implícita ou explícita do seu funcionamento.
-
-# AVISO 02
-Devido a versão do driver Nvidia inclusa no **Debian estável não oferecer uma versão compatível do CUDA**, não é possível executar versões recentes do Davinci Resolve (acima do 19). Apenas drivers proprietários da Nvidia acima da versão 550 fornecem as versões necessárias das bibliotecas. Em meus testes, **não foi posível executar o Davinci Resolve corretamente ao instalar o driver diretamente dos repositórios da NVIDIA**.
-
-# AVISO 03
-O Debian 13 (Trixie) também não fornece os drivers necessários para executar o Resolve. No momento, recomendo utilizar outra distribuição caso esse programa seja importante no seu fluxo de trabalho.
-
+# Sumário
+- Introdução
+- Pós-instalação do Debian 13 Trixie
+	- Configuração básica do Firewall
+	- Ativação do DebMultimedia
+	- Instalação drivers proprietários NVIDIA
+	- Ativação do suporte a Flatpak no sistema
+	- Instalação do Davinci Resolve Gratuito / Studio
+- Preparação do ambiente para produtividade
+- Configurações extras para Jogos
+- Remoção de pacotes desnecessários
 
 </br>
 
-# Objetivos
-Esse roteiro funciona como um guia passo a passo para apoiar a pós-instalação/configuração de uma máquina de trabalho baseada em Debian 12 para atividades de edição de vídeo, edição fotográfica e redação para web.
+# Introdução
 
-O objetivo deste roteiro **não é ser um script totalmente automatizado**, utilizo ele em meu ambiente, sendo  recomendado e testado apenas no Debian 12 Bookworm. Caso você queira seguir este roteiro em distros com outras bases, lembre-se de modificar os pacotes e comandos necessários por conta e risco, moldando conforme necessário para seu sistema, fique à vontade.
+Esse roteiro funciona como um guia passo a passo para apoiar a pós-instalação, configuração e otimização de uma máquina de trabalho baseada em Debian 13 para atividades de edição de vídeo, edição fotográfica e redação para web.
 
-A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rotina de trabalho atual, então, remova ou adicione programas de acordo com sua necessidade. **Haverão algumas configurações extras relacionadas com jogos e ajustes cosméticos, mas isso é um bônus.** :wink:
+Ele é testado apenas no Debian 13 Trixie, caso você queira seguir este roteiro em distros com outras bases, lembre-se de modificar os pacotes e comandos necessários por sua conta e risco, moldando conforme necessário para seu sistema.
 
-</br>
-
-## Este roteiro aborda os seguintes tópicos
-
-Preparação do Debian 12:
-- Ativação de repositórios extras (DebMultimedia).
-- Instalação drivers de vídeo proprietários Nvidia.
-- Ativação do suporte a flatpaks.
+> [!NOTE]  
+> **Mudanças em relação ao [guia anterior](https://github.com/eddiecsilva/debian-post-install/blob/main/debian-12-bookworm.md)**
+> - Utilização do Debian 13 como base.
+> - Driver proprietário instalado dos repositórios da NVIDIA.
+> - KDE Plasma como ambiente padrão
 
 </br>
 
-Instalação dos programas:
-- Davinci Resolve Gratuito.
-- Ferramentas gráficas: Gimp, Inskcape, Shotcut, ColorPicker, Fontbase.
-- Navegadores web: Google Chrome, Microsoft Edge, Firefox e Chromium.
-- Utilários diversos: Winff, Video Trimmer, MPV.
-- Ferramentas de sistema: Timeshift, Pika Backup, Boxes, VirtualBox.
+Neste roteiro considero que estamos partindo de uma **instalação limpa do Debian 13 com o ambiente KDE Plasma**, com todas as atualizações recomendadas instaladas. A **instalação mínima** pode dificultar a instalação do Davinci Resolve, fique atento nas mensagens de erro para instalar os pacotes extras que forem necessários.
+
+> [!CAUTION]  
+>  O objetivo deste roteiro **não é ser um script totalmente automatizado**, se deseja uma ferramenta que configure tudo para você, sugiro testar o projeto [LinuxToys](https://github.com/psygreg/linuxtoys).
 
 </br>
 
-Neste roteiro considero que estamos partindo de uma instalação padrão do Debian 12 com o ambiente GNOME, com todas as atualizações recomendadas instaladas. A **instalação mínima** pode apresentar erros na instalação do Davinci Resolve, fique atento nas mensagens de erro para instalar os pacotes extras que forem necessários.
+Minha máquina de trabalho utiliza uma GPU Nvidia RTX 5070TI e um processador AMD Ryzen 7 5700X. Por fim, eu prefiro utilizar o formato flatpak sempre que possível, adapte conforme suas preferências.
 
-Para entender melhor as diferenças entre as versões do Debian, recomendo assistir este vídeo.</br>
-
-[![Então, esse é o SEGREDO da ESTABILIDADE do Debian?](https://img.youtube.com/vi/JK03ZcXYAoE/mqdefault.jpg)](https://youtube.com/watch?v=JK03ZcXYAoE)
-
-</br>
-
-Para mais informações sobre o processo de instalação, recomendo assistir o vídeo abaixo.
-</br>
-[![Aprenda a domar o instalador do Debian Linux ](https://img.youtube.com/vi/QOuspK8MARk/mqdefault.jpg)](https://youtu.be/QOuspK8MARk)
-
-Meu setup padrão considera que será utilizada uma GPU Nvidia RTX 3060TI e um processador AMD Ryzen 7 5700X. Por fim, eu prefiro utilizar o formato flatpak sempre que possível, adapte conforme suas preferências.
+| Para mais informações sobre o processo de instalação, assista o vídeo abaixo.                                                          | Para entender melhor as novidades e mudanças incorporadas no Debian 13 (Trixie), recomendo assistir este vídeo.         |
+| -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| [![Aprenda a domar o instalador do Debian Linux ](https://img.youtube.com/vi/QOuspK8MARk/mqdefault.jpg)](https://youtu.be/QOuspK8MARk) | [![O que vem por aí no Debian 13 ](https://img.youtube.com/vi/3V5wCdeNt6s/mqdefault.jpg)](https://youtu.be/3V5wCdeNt6s) |
 
 </br>
 
-# Preparação do Debian 12 Bookworm
+# Preparação do Debian 13 Trixie
+
+Nesta guia eu sugiro usar a **Instalação Avançada do Debian** para ativar os repositórios NON-FREE e NON-FREE-FIRMWARE já na instalação. Não são passos obrigatórios, mas já adiantam alguns processos.
+
+* Ativar e configurar o firewall (UFW).
+* Ativação de repositórios extras (DebMultimedia e NVIDIA).
+* Instalação dos drivers de vídeo proprietários NVIDIA.
+* Ativação do suporte a flatpaks.
+* Ajustes básicos do sistema.
+* Notas sobre problemas encontrados até o momento.
+
+</br>
+
+## Instalação e configuração básica do Firewall
+Ativar um firewall é um cuidado recomendado para diminuir as chances de expor seu computador online, é claro que, para ter realmente segurança online é necessário tomar outros cuidados. 
+
+> [!NOTE]  
+> Os comandos abaixo liberam a comunicação nas portas indicadas para quaisquer equipamentos da rede, uma recomendação extra de segurança é liberar o acesso apenas para a sua rede local.
+
+Instalar e habilitar o UFW no Debian 13
+```
+sudo apt install ufw
+sudo ufw enable
+```
+
+Libera acesso na rede para o [KDEConnect](https://youtu.be/GTv0o0sOuyQ?si=nWhdiEEeHXKcFTaV)
+```
+sudo ufw allow 1714:1764/udp
+sudo ufw allow 1714:1764/tcp
+```
+
+Libera acesso na rede para o [Touch Portal](https://www.touch-portal.com/)
+```
+sudo ufw allow 12135/tcp
+```
+
+Libera acesso na rede para o [Warpinator](https://youtu.be/oayBzLEeIwg?si=3puB8U34rz8NNyqu)
+```
+sudo ufw allow 42000:42001/udp
+sudo ufw allow 42000:42001/tcp
+```
+
+</br>
 
 ## Ativação de repositórios extras (DebMultimedia)
-O repositório DebMultimedia é um projeto não oficial que disponibiliza alguns pacotes relacionados com codecs e ferramentas de multimedia que não podem ser distribuídos oficialmente por limitações de licença, como o FFMPEG com suporte a aceleração de hardware Nvidia, por exemplo. Trata-se de um repositório de terceiros, então, esteja ciente disso.
+O repositório DebMultimedia é um projeto não oficial que disponibiliza alguns pacotes relacionados com codecs e ferramentas de multimídia que não podem ser distribuídos oficialmente no Debian por limitações de licença, como o FFMPEG com suporte a aceleração de hardware Nvidia, por exemplo. 
 
-```shellscript
-echo "deb https://www.deb-multimedia.org bookworm main non-free" > /etc/apt/sources.list.d/deb-multimedia.list
-apt-get update -oAcquire::AllowInsecureRepositories=true
-apt-get install deb-multimedia-keyring
-apt-get update; apt-get dist-upgrade
+Trata-se de um repositório de terceiros, então, esteja ciente disso. O projeto DebMultimedia não oferece o componente CONTRIB em seus servidores.
+
+```
+wget https://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2024.9.1_all.deb
+sudo dpkg -i deb-multimedia-keyring_2024.9.1_all.deb
+```
+
+Conforme o padrão DEB822, o formato correto do arquivo sources deverá ser salvo em "/etc/apt/sources.list.d/dmo.sources" com o conteúdo abaixo.
+
+```
+Types: deb
+URIs: https://www.deb-multimedia.org
+Suites: trixie
+Components: main non-free
+Signed-By: /usr/share/keyrings/deb-multimedia-keyring.pgp
+Enabled: yes
+```
+
+
+**Opcionalmente** você pode executar o comando abaixo para conferir se todas as entradas para repositórios já estão corretamente formatadas. 
+
+```
+apt modernize-sources
 ```
 
 </br>
 
 ## Instalação drivers de vídeo proprietários Nvidia
-Os drivers da Nvidia estão disponíveis nos repositórios padrão da distro, para instá-los você precisa ativar os repositórios "non-free-firmware contrib non-free" no Debian. Para poder utilizar os Davinci Resolve e outros programas que usam vídeo acelerado por hardware, além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas.
+Para poder utilizar programas que usam vídeo acelerado por hardware, além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas. No Debian 13 atualmente apenas o driver 550 está disponível e ele não oferece todas as dependências necessárias para utilizar o Davinci Resolve.
 
-**NÃO RECOMENDO** usar o script .RUN fornecido pela Nvidia, use os pacotes fornecidos pelo distro para facilitar a manutenção do sistema. Ainda não fiz testes com o novo driver open source da NVIDIA, uma vez que ele ainda não está oficialmente disponível nos repositórios do Debian 12.
+Por isso, iremos utilizar os [pacotes gerados pela própria NVIDIA](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Debian&target_version=12&target_type=deb_network) para instalar a versão mais recente do driver, do CUDA e também das bibliotecas auxiliares.
 
-[![Driver NVIDIA no Debian - Guia COMPLETO para instalar e configurar](https://img.youtube.com/vi/SSE5KYGLn8Q/mqdefault.jpg)](https://youtu.be/SSE5KYGLn8Q)
+---
+**Dependências importantes:** Para garantir que os módulos do kernel sejam corretamente compilados, é recomendável que os pacotes abaixo estejam instalados.
 
-
-Após ativar os repositórios extras, basta fazer uma atualização completa do sistema e executar os comandos abaixo.
-
-```shellscript
-sudo apt install nvidia-driver nvidia-opencl-icd firmware-misc-nonfree nvidia-cuda-dev nvidia-cuda-toolkit libcuda1 libglu1-mesa libnvidia-encode1 libnvoptix1
+```
+apt install --no-install-recommends dkms libdw-dev clang lld llvm build-essential linux-headers-amd64 pipewire-audio-client-libraries
 ```
 
+---
+Por enquanto existem repositórios oficiais apenas para o Debian 12, mas os pacotes funcionam sem problemas no Bookworm (12) e Trixie (13).
+
+```
+wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt update
+```
+
+Se você usa sua máquina apenas para jogos, consumo de mídia e/ou edição de vídeo, instalar o pacote nvidia-open cobre todo o setup básico.
+
+```
+sudo apt -y install nvidia-open
+```
+
+Se você **desenvolve** aplicações CUDA ou precisa de outros recursos avançados para IA - é recomendável instalar o pacote CUDA-DRIVERS.
+
+```
+sudo apt -y install cuda-drivers cuda-toolkit
+```
+
+---
+Para evitar problemas com "disputas" entre os pacotes do Debian e do repositório da NVIDIA, sugiro [aumentar prioridade do repositório da NVIDIA](https://wiki.debian.org/AptConfiguration). Isso vai informar ao sistema que caso os mesmos pacotes existam nas duas fontes, o repositório da NVIDIA sempre terá prioridade para ser instalado.
+
+Crie um arquivo de configuração em "/etc/apt/preferences.d" com o seguinte conteúdo:
+
+```
+vim /etc/apt/preferences.d/nvidia-repo
+```
+
+```
+Package: *  
+Pin: origin https://developer.download.nvidia.com  
+Pin-Priority: 900
+```
 </br>
 
-**Ativação do suporte a Flatpak no sistema**
+## Ativação do suporte a Flatpak no sistema
 
-```shellscript
-sudo apt install flatpak gnome-software-plugin-flatpak
+Pacotes necessários para ativar o suporte a [pacotes flatpak no Debian](https://flathub.org/setup/Debian) e adicionar o repositório Flathub.
+
+```
+sudo apt install flatpak plasma-discover-backend-flatpak
 ```
 
-```shellscript
+```
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
+</br>
+
+# Preparação do ambiente para produtividade
+A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rotina de trabalho atual, então, remova ou adicione programas de acordo com sua necessidade.
 
 </br>
 
-# Instalação do Davinci Resolve Gratuito
+### Ferramentas gráficas: Gimp, Inskcape, Shotcut.
+Canivete suíço de criação de conteúdo, tratamento de imagens, desenho vetorial e edição de vídeo usando software livre.
+
 ```
-OBSERVAÇÃO IMPORTANTE: O Davinci Resolve 19.0 e mais recentes exigem que a versão mínima do CUDA seja a 12.3, o que inviabiliza sua utilização no Debian 12 Bookworm por padrão. Atualmente a versão do CUDA suportada pelo driver 535.x é a 12.2.
-```
-</br>
-
-Faça o download da versão gratuita do [Davinci Resolve](https://www.blackmagicdesign.com/br/products/davinciresolve) no site oficial da Black Magic, em meu uso diário não tenho enfrentado nenhum problema com o instalador padrão além dos citados neste guia. 
-
-</br>
-
-**Resolução de dependências para o Davinci Resolve**
-
-Em algumas instalações o Davinci Resolve não inicia devido a falta de dependências no sistema, uma das formas de corrigir este problema é instalar os pacotes abaixo no Debian 12.
-
-```shellscript
-sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput0
-```
-
-**OBS.:** Tenho observado alguns bugs na versão 18.6 e posteriores, principalmente relacionado com a gestão das timelines, por isso, recomendo que você faça alguns testes e valide se no seu ambiente está tudo funcionando corretamente. No momento, sigo utilizando a versão 18.5.
-
-</br>
-
-**Contornar erro de instalação "do pacote"** 
-
-Este problema ocorreu comigo apenas na instalação do Davinci Resolve no openSUSE Tumbleweed e em instalações feitas no modo avançado do Debian. Ao executar o instalador, é exibida uma mensagem de que exitem pacotes faltando no sistema e mesmo instalando os pacotes o instalador não inicia.
-
-Deixo aqui anotado caso afete a instalação de outras pessoas.
-
-```shellscript
-SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_18.X_Linux.run
+flatpak install org.gimp.GIMP com.obsproject.Studio \
+org.inkscape.Inkscape org.shotcut.Shotcut
 ```
 
 </br>
 
+### Navegadores web: Google Chrome, Microsoft Edge, Zen Browser e Firefox.
+Eu deixo os principais navegadores instalados para que possa fazer diversos tipos de testes em sites e aplicativos web. Apenas o Chromium é instalado usando as versões do repositório do Debian.
+
+```
+flatpak install com.google.Chrome com.microsoft.Edge org.mozilla.firefox app.zen_browser.zen
+```
+
+</br>
+
+### Programas diversos: Handbrake, Video Trimmer, Celluloid, Boxes e outros.
+Aqui listo vários programas auxiliares que utilizo diariamente, sugiro que daqui para baixo, ajuste conforme suas preferências.
+
+```
+flatpak install md.obsidian.Obsidian org.onlyoffice.desktopeditors \
+com.usebottles.bottles com.github.tchx84.Flatseal org.gnome.Boxes \
+io.missioncenter.MissionCenter com.dec05eba.gpu_screen_recorder \
+fr.handbrake.ghb io.github.celluloid_player.Celluloid
+```
+
+```
+sudo apt install vim btop fish gpm yt-dlp fonts-bebas-neue chromium aria2 \
+gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad tmux
+```
+
+</br>
+
+### Instalação do Davinci Resolve Gratuito / Studio
+Faça o download da versão adequada do [Davinci Resolve](https://www.blackmagicdesign.com/br/products/davinciresolve) no site oficial da Black Magic Design, em meu uso diário não tenho enfrentado nenhum problema com o instalador padrão.
+
+As soluções abaixo são um compilado de anotações que acumulei ao longo dos anos usando o Davinci Resolve em diversas distros.
+
+> [!WARNING]
+> OBSERVAÇÃO IMPORTANTE: O Davinci Resolve 20.x e mais recentes exigem que a versão mínima do CUDA seja a 12.8, que está disponível apenas à partir do driver 570 da Nvidia.
+
+**Contornar erro de instalação "do pacote"**
+Mesmo instalando os pacotes o instalador não inicia, o comando abaixo contorna essa situação e não afeta o funcionamento normal do Davinci Resolve. Lembre de alterar o nome do arquivo de instalação de acordo com a versão que você estiver instalando.
+
+```
+SKIP_PACKAGE_CHECK=1 ./DaVinci_Resolve_Studio_20.0b2_Linux.run
+```
+
+---
+**Dependências para o Davinci Resolve**
+Em algumas instalações o Davinci Resolve não inicia devido a falta de dependências no sistema, uma das formas de corrigir este problema é conferir os pacotes abaixo estão instalados no Debian 13.
+
+```
+sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput0 pkexec
+```
+
+---
 **Corrigir o erro com instalador gráfico do Resolve "libfuse2"**
+Caso o instalador gráfico do Davinci Resolve não abra, execute ele via terminal para ver qual é a mensagem de erro. Caso apareça algo similar a "*libfuse.so.2: cannot open shared object file*" - use o comando abaixo para solucionar o problema.
 
-Caso o instalador gráfico do Davinci Resolve não abra, execute ele via terminal para ver qual é a mensagem de erro. Caso apareça algo similar a "*libfuse.so.2: cannot open shared object file*" - use o comando abaixo para contornar o problema.
-
-```shellscript
+```
 apt install -y libfuse2
 ```
 
-</br>
-
+---
 **Resolver problemas com libs do Davinci Resolve"**
+O pacote do Davinci Resolve incorpora uma série de bibliotecas que podem conflitar com as versões disponíveis em algumas distros Linux.
 
-O pacote do Davinci Resolve incorpora uma série de bibliotecas que podem conflitar com as versões disponíveis em algumas distros Linux. Existem formas diferentes de contornar esta situação caso ocorra com você, nesta página da [Arch Wiki](https://wiki.archlinux.org/title/DaVinci_Resolve) existem diversas dicas que podem ser úteis. 
-Em minhas instalações, geralmente apagar as libs abaixo já resolvem o problema do Resolve. Sugiro que você faça um backup dos arquivos antes de removê-los do sistema. :-)
+Existem formas diferentes de contornar esta situação caso ocorra com você, nesta página da [Arch Wiki](https://wiki.archlinux.org/title/DaVinci_Resolve) existem dicas que podem ser úteis. Em minhas instalações, geralmente apagar as libs abaixo já soluciona o problema do Davinci Resolve.
 
+> [!WARNING]  
+> Sugiro que você faça um backup dos arquivos antes de removê-los do sistema.
 
-O comando abaixo cria uma cópia dos arquivos das bibliotecas dentro da home do usuário resolvendo links simbólicos.
+O comando abaixo cria uma cópia das bibliotecas dentro da home do usuário resolvendo links simbólicos.
 
-```shellscript
+```
 tar -cvhzf ~/backup-libs-resolve.tar.gz /opt/resolve/libs/libgmodule-2.0.so* /opt/resolve/libs/libglib-2.0.so* /opt/resolve/libs/libgio-2.0.so*
 ```
 
-Agora é só apagar as bibliotecas que geralmente dão problemas. **Muita atenção ao executar estes comandos, qualquer erro de digitação pode gerar uma quebra severa do sistema.**
+Agora é só apagar as bibliotecas. **Muita atenção ao executar estes comandos, qualquer erro de digitação pode gerar uma quebra severa do sistema.**
 
-```shellscript
+```
 sudo rm /opt/resolve/libs/libgmodule-2.0.so*
 sudo rm /opt/resolve/libs/libglib-2.0.so*
 sudo rm /opt/resolve/libs/libgio-2.0.so*
 ```
 
-</br></br>
-
-# Preparação do ambiente para produtividade
-
-## Instalação de ferramentas gráficas: Gimp, Inskcape, Shotcut, ColorPicker.
-
-Canivete suíço de criação de conteúdo, tratamento de imagens, desenho vetorial e edição de vídeo usando software livre.
-
-```shellscript
-flatpak install org.gimp.GIMP com.obsproject.Studio nl.hjdskes.gcolor3 org.flameshot.Flameshot org.inkscape.Inkscape org.shotcut.Shotcut
-```
-
 </br>
 
-## Instalação de navegadores web: Google Chrome, Microsoft Edge, Firefox e Chromium.
-
-Eu deixo os principais navegadores instalados para que possa fazer diversos tipos de testes em sites e aplicativos web. O Firefox e o Chromium instalo as versões do repositório do Debian.
-
-```shellscript
-flatpak install com.google.Chrome com.microsoft.Edge
-```
-
-</br>
-
-## Instalação de programas diversos: Winff, Video Trimmer, MPV, Timeshift, Boxes, VirtualBox.
-
-Esta sessão é totalmente livre e aqui listo vários programas auxiliares que utilizo diariamente, sugiro fortemente que daqui para baixo, ajuste conforme suas preferências.
-
-```shellscript
-flatpak install com.system76.Popsicle md.obsidian.Obsidian org.onlyoffice.desktopeditors org.gnome.gitlab.YaLTeR.VideoTrimmer org.x.Warpinator
-```
-
-```shellscript
-flatpak install com.usebottles.bottles com.github.tchx84.Flatseal org.gnome.Boxes
-```
-
-```shellscript
-sudo apt install vim bashtop fish gpm yt-dlp ttf-mscorefonts-installer fonts-bebas-neue chromium aria2
-```
-
-Obs.: parei de utilizar o Pika Backup após sofrer 2 corrompimentos seguidos de backup que não puderam ser recuperados.
-
-</br>
-
-# Configurações extras
-
-**Plataformas de Jogos**
-
+# Configurações extras para Jogos
 Instala os pacotes flatpak necessários para a Steam e Heroic Games Launcher.
 
-```shellscript
-flatpak install com.valvesoftware.Steam com.valvesoftware.Steam.Utility.MangoHud com.valvesoftware.Steam.Utility.vkBasalt com.valvesoftware.Steam.VulkanLayer.MangoHud com.heroicgameslauncher.hgl
 ```
+flatpak install com.valvesoftware.Steam com.valvesoftware.Steam.Utility.vkBasalt \
+com.heroicgameslauncher.hgl com.github.Matoking.protontricks com.github.tchx84.Flatseal \
+io.github.radiolamp.mangojuice org.vinegarhq.Sober
+
+```
+
 Se for necessário, utilizando o FlatSeal libere as permissões do pacote flatpak do Steam para acessar outras unidades de disco.
 
 </br>
 
-**Extensões do GNOME**
-
-Apesar de não ser incentivado pelo projeto GNOME, ainda utilizo algumas extensões em meu ambiente.
-- [AppIndicator and KStatusNotifierItem Support](https://extensions.gnome.org/extension/615/appindicator-support/)
-- [GSConnect](https://github.com/GSConnect/gnome-shell-extension-gsconnect/wiki)
-- [Blur My Shell](https://github.com/aunetx/blur-my-shell)
-- [Screenshot Window Sizer](https://extensions.gnome.org/extension/881/screenshot-window-sizer/)
-
-</br>
-
-**Remoção de pacotes desnecessários**
-
+# Remoção de pacotes desnecessários
 Limpeza de pacotes que são instalados por padrão e que não utilizo em minha rotina.
 
-```shellscript
-sudo apt purge libreoffice-common gnome-games --autoremove
+```
+sudo apt autoremove libreoffice-common \
+akregator kontrast kmouth dragonplayer \
+kmail juk xterm firefox-esr konqueror
 ```
 
 </br>
 
-**Tema de ícones**
+# Configurações ainda em testes
+> [!NOTE]  
+> Aqui começa a parte experimental do roteiro, são mudanças em relação ao meu ambiente padrão que estou validando.
 
-Nas minhas instalações eu gosto de utilizar o tema para ícones [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) na variante dark, ele existe nos repositórios oficiais. Um dos motivos para utilizar este tema é que ele cobre todos os programas que eu uso, no tema Adwaita padrão, faltam ícones para diversos programas.
+### Ativar o ZSWAP
 
-Basta instalar o tema e ativar usando o GNOME Ajustes.
+Ativar o ZSWAP ou o ZRAM pode impactar no desempenho de diversas formas, o uso do ZRAM parece ser um consenso entre a maioria das distros.  Ainda estou fazendo testes com esse recurso, em meu ambiente atualmente uso SystemD-Boot com ZSWAP ativo.
 
-```shellscript
-sudo apt install papirus-icon-theme
+Parâmetros
 ```
+zswap.enabled=1 quiet
+```
+
+Adicionar os parâmetros nas chaves correspondentes em:
+```
+vim /boot/efi/loader/entries/
+```
+
+Depois atualize o sistema e reinicie o computador.
+```
+bootctl update
+```
+
+Documentação de referência sobre ZSWAP: [1](https://wiki.debian.org/Zswap) [2](https://wiki.archlinux.org/title/Zswap) [3](https://wiki.archlinux.org/title/Kernel_parameters)
+
+</br>
+
+# Tutoriais e Programas interessantes
+
+- [Debian descomplicado: da formatação à produtividade](https://plus.diolinux.com.br/t/debian-descomplicado-da-formatacao-a-produtividade/35806?u=eddiecsilva)
+- [Configurando a Steam Flatpak: discos, MangoHUD, Gamemode e Remote Play](https://plus.diolinux.com.br/t/configurando-a-steam-flatpak-discos-mangohud-gamemode-e-remote-play/47160?u=eddiecsilva)
+- [Como instalar o MangoHud corretamente no Heroic Games Launcher](https://plus.diolinux.com.br/t/como-instalar-o-mangohud-corretamente-no-heroic-games-launcher/72159?u=eddiecsilva)
+- [Davinci Resolve FREE no Linux: Setup Perfeito em 2024](https://plus.diolinux.com.br/t/davinci-resolve-free-no-linux-setup-perfeito-em-2024/67074?u=eddiecsilva)
+
+- **[MakeResolveDeb](https://www.danieltufvesson.com/makeresolvedeb)** - Você pode usar o projeto MakeResolveDeb para converter o instalador do Resolve para um pacote compatível com base Debian - sua principal vantagem é permitir que a instalação do Resolve seja gerenciada como um pacote nativo do Debian.
+- **[LinuxToys](https://github.com/psygreg/linuxtoys)** - facilita instalar diversas otimizações presentes no CachyOS como o [CachyOS Tweaks ](https://wiki.cachyos.org/features/cachyos_settings/) e um kernel otimizado, o [PsyCachy](https://github.com/psygreg/linux-psycachy/releases) em diversas distros. A ferramenta está em constante evolução e auxilia na instalação de programas com configurações otimizadas.
+- **Alpaca** - Ferramenta para interagir com IAs localmente: [com.jeffser.Alpaca](https://flathub.org/apps/com.jeffser.Alpaca)
+- **Vesktop** - Cliente não oficial para Dircord com recursos extras: [dev.vencord.Vesktop](https://flathub.org/apps/dev.vencord.Vesktop)
+- **FlatSweep** - limpador de resíduos de pacotes flatpak: [FlatSweep](https://flathub.org/apps/io.github.giantpinkrobots.flatsweep)
+- **CachyOs NVIDIA** - Otimizações para GPU - https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/lib/modprobe.d/nvidia.conf
