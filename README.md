@@ -56,7 +56,7 @@ Minha máquina de trabalho utiliza uma GPU Nvidia RTX 5070TI e um processador AM
 
 # Preparação do Debian 13 Trixie
 
-Nesta guia eu sugiro usar a **Instalação Avançada do Debian** para ativar os repositórios NON-FREE e NON-FREE-FIRMWARE já na instalação. Não são passos obrigatórios, mas já adiantam alguns processos.
+Neste guia eu sugiro usar a **Instalação Avançada do Debian** para ativar os repositórios NON-FREE e NON-FREE-FIRMWARE já na instalação. Não são passos obrigatórios, mas já adiantam alguns processos.
 
 * Ativar e configurar o firewall (UFW).
 * Ativação de repositórios extras (DebMultimedia e NVIDIA).
@@ -123,7 +123,7 @@ Enabled: yes
 **Opcionalmente** você pode executar o comando abaixo para conferir se todas as entradas para repositórios já estão corretamente formatadas. 
 
 ```
-apt modernize-sources
+sudo apt modernize-sources
 ```
 
 </br>
@@ -137,14 +137,14 @@ Por isso, iremos utilizar os [pacotes gerados pela própria NVIDIA](https://deve
 **Dependências importantes:** Para garantir que os módulos do kernel sejam corretamente compilados, é recomendável que os pacotes abaixo estejam instalados.
 
 ```
-apt install --no-install-recommends dkms libdw-dev clang lld llvm build-essential linux-headers-amd64 pipewire-audio-client-libraries
+sudo apt install --no-install-recommends dkms libdw-dev clang lld llvm build-essential linux-headers-amd64 pipewire-audio-client-libraries
 ```
 
 ---
-Por enquanto existem repositórios oficiais apenas para o Debian 12, mas os pacotes funcionam sem problemas no Bookworm (12) e Trixie (13).
+A NVIDIA já publica um repositório para o Debian 13 (Trixie), os comandos abaixo usam ele.
 
 ```
-wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb
+wget https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb
 sudo dpkg -i cuda-keyring_1.1-1_all.deb
 sudo apt update
 ```
@@ -167,14 +167,17 @@ Para evitar problemas com "disputas" entre os pacotes do Debian e do repositóri
 Crie um arquivo de configuração em "/etc/apt/preferences.d" com o seguinte conteúdo:
 
 ```
-vim /etc/apt/preferences.d/nvidia-repo
+sudo vim /etc/apt/preferences.d/nvidia-repo
 ```
 
 ```
-Package: *  
-Pin: origin https://developer.download.nvidia.com  
+Package: *
+Pin: origin developer.download.nvidia.com
 Pin-Priority: 900
 ```
+
+> [!NOTE]  
+> O APT compara apenas o nome do servidor na linha "Pin: origin", sem "https://". Para conferir se a prioridade foi aplicada, rode `apt-cache policy` e procure o valor 900 ao lado do repositório da NVIDIA.
 </br>
 
 ## Ativação do suporte a Flatpak no sistema
@@ -195,7 +198,7 @@ A seleção de programas escolhidos neste roteiro, é a que utilizo em minha rot
 
 </br>
 
-### Ferramentas gráficas: Gimp, Inskcape, Shotcut.
+### Ferramentas gráficas: Gimp, Inkscape, OBS Studio, Shotcut.
 Canivete suíço de criação de conteúdo, tratamento de imagens, desenho vetorial e edição de vídeo usando software livre.
 
 ```
@@ -259,11 +262,13 @@ sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput
 Caso o instalador gráfico do Davinci Resolve não abra, execute ele via terminal para ver qual é a mensagem de erro. Caso apareça algo similar a "*libfuse.so.2: cannot open shared object file*" - use o comando abaixo para solucionar o problema.
 
 ```
-apt install -y libfuse2
+sudo apt install -y libfuse2
 ```
 
+No Debian 13 o pacote passou a se chamar libfuse2t64, o APT escolhe ele automaticamente.
+
 ---
-**Resolver problemas com libs do Davinci Resolve"**
+**Resolver problemas com libs do Davinci Resolve**
 O pacote do Davinci Resolve incorpora uma série de bibliotecas que podem conflitar com as versões disponíveis em algumas distros Linux.
 
 Existem formas diferentes de contornar esta situação caso ocorra com você, nesta página da [Arch Wiki](https://wiki.archlinux.org/title/DaVinci_Resolve) existem dicas que podem ser úteis. Em minhas instalações, geralmente apagar as libs abaixo já soluciona o problema do Davinci Resolve.
@@ -320,19 +325,30 @@ kmail juk xterm firefox-esr konqueror
 
 Ativar o ZSWAP ou o ZRAM pode impactar no desempenho de diversas formas, o uso do ZRAM parece ser um consenso entre a maioria das distros.  Ainda estou fazendo testes com esse recurso, em meu ambiente atualmente uso SystemD-Boot com ZSWAP ativo.
 
-Parâmetros
+Parâmetro
 ```
-zswap.enabled=1 quiet
-```
-
-Adicionar os parâmetros nas chaves correspondentes em:
-```
-vim /boot/efi/loader/entries/
+zswap.enabled=1
 ```
 
-Depois atualize o sistema e reinicie o computador.
+**Com systemd-boot:** no Debian, as entradas de boot são recriadas pelo `kernel-install` a cada kernel instalado, a partir do arquivo "/etc/kernel/cmdline". Se ele ainda não existir, crie com as opções atuais do sistema e acrescente o parâmetro no final da linha.
+
 ```
-bootctl update
+sudo sh -c 'tr " " "\n" < /proc/cmdline | grep -v -e "^BOOT_IMAGE=" -e "^initrd=" | tr "\n" " " > /etc/kernel/cmdline'
+sudo vim /etc/kernel/cmdline
+```
+
+Depois recrie a entrada do kernel atual e reinicie o computador.
+```
+sudo kernel-install add $(uname -r) /boot/vmlinuz-$(uname -r)
+```
+
+> [!NOTE]  
+> O comando `bootctl update` atualiza apenas o próprio systemd-boot, ele não altera os parâmetros do kernel.
+
+**Com GRUB (padrão do instalador do Debian):** acrescente o parâmetro na linha GRUB_CMDLINE_LINUX_DEFAULT do arquivo "/etc/default/grub", por exemplo `GRUB_CMDLINE_LINUX_DEFAULT="quiet zswap.enabled=1"`, depois atualize o GRUB e reinicie.
+```
+sudo vim /etc/default/grub
+sudo update-grub
 ```
 
 Documentação de referência sobre ZSWAP: [1](https://wiki.debian.org/Zswap) [2](https://wiki.archlinux.org/title/Zswap) [3](https://wiki.archlinux.org/title/Kernel_parameters)
@@ -349,6 +365,6 @@ Documentação de referência sobre ZSWAP: [1](https://wiki.debian.org/Zswap) [2
 - **[MakeResolveDeb](https://www.danieltufvesson.com/makeresolvedeb)** - Você pode usar o projeto MakeResolveDeb para converter o instalador do Resolve para um pacote compatível com base Debian - sua principal vantagem é permitir que a instalação do Resolve seja gerenciada como um pacote nativo do Debian.
 - **[LinuxToys](https://github.com/psygreg/linuxtoys)** - facilita instalar diversas otimizações presentes no CachyOS como o [CachyOS Tweaks ](https://wiki.cachyos.org/features/cachyos_settings/) e um kernel otimizado, o [PsyCachy](https://github.com/psygreg/linux-psycachy/releases) em diversas distros. A ferramenta está em constante evolução e auxilia na instalação de programas com configurações otimizadas.
 - **Alpaca** - Ferramenta para interagir com IAs localmente: [com.jeffser.Alpaca](https://flathub.org/apps/com.jeffser.Alpaca)
-- **Vesktop** - Cliente não oficial para Dircord com recursos extras: [dev.vencord.Vesktop](https://flathub.org/apps/dev.vencord.Vesktop)
+- **Vesktop** - Cliente não oficial para Discord com recursos extras: [dev.vencord.Vesktop](https://flathub.org/apps/dev.vencord.Vesktop)
 - **FlatSweep** - limpador de resíduos de pacotes flatpak: [FlatSweep](https://flathub.org/apps/io.github.giantpinkrobots.flatsweep)
 - **CachyOs NVIDIA** - Otimizações para GPU - https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/lib/modprobe.d/nvidia.conf
