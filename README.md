@@ -11,6 +11,8 @@
 </p>
 </br>
 
+> **Trabalho em progresso:** [rascunho para o Debian 14 (Forky)](debian-14-forky.md).
+
 # Sumário
 - Introdução
 - Pós-instalação do Debian 13 Trixie
