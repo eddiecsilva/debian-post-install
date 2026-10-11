@@ -12,8 +12,9 @@
 </br>
 
 > [!WARNING]
-> **Rascunho, trabalho em progresso para o Debian 14 (Forky), atualmente em testing.**
-> Este rascunho parte do guia do Debian 13 e registra os ajustes necessários para o Forky.
+> **Rascunho, trabalho em progresso para o Debian 14 (Forky), que ainda está em testing.**
+> Ele parte do [guia do Debian 13](https://github.com/eddiecsilva/debian-post-install/blob/main/README.md) e registra só os ajustes que o Forky exige, cada um com o motivo.
+> Como a testing muda toda semana, os pacotes e versões citados aqui foram conferidos em 11/10/2026 num Debian testing limpo e podem mudar até o lançamento.
 
 # Sumário
 
@@ -34,17 +35,20 @@
 
 Esse roteiro funciona como um guia passo a passo para apoiar a pós-instalação, configuração e otimização de uma máquina de trabalho baseada em Debian 14 Forky para atividades de edição de vídeo, edição fotográfica e redação para web.
 
-Este rascunho está sendo validado no Debian 14 Forky (testing), caso você queira seguir este roteiro em distros com outras bases, lembre-se de modificar os pacotes e comandos necessários por sua conta e risco, moldando conforme necessário para seu sistema.
+Ele está sendo testado apenas no Debian 14 Forky, que ainda está em testing, caso você queira seguir este roteiro em distros com outras bases, lembre-se de modificar os pacotes e comandos necessários por sua conta e risco, moldando conforme necessário para seu sistema.
 
 > [!NOTE]  
-> **Mudanças em relação ao [guia anterior](https://github.com/eddiecsilva/debian-post-install/blob/main/debian-12-bookworm.md)**
-> - Utilização do Debian 14 (Forky) como base, pois a suíte está em testing.
-> - Driver proprietário instalado dos repositórios da NVIDIA.
-> - KDE Plasma como ambiente padrão
+> **Mudanças em relação ao [guia do Debian 13](https://github.com/eddiecsilva/debian-post-install/blob/main/README.md)**
+> - DebMultimedia: a suíte passa a se chamar `forky`.
+> - NVIDIA: o repositório continua sendo o `debian13`, a NVIDIA ainda não publicou um `debian14`.
+> - NVIDIA: o driver dos repositórios do próprio Debian continua no 550, então o repositório da NVIDIA segue necessário para o Davinci Resolve 20.
+> - Davinci Resolve: o pacote `libfuse2` não existe mais no Debian 14, veja a seção do instalador.
 
 </br>
 
 Neste roteiro considero que estamos partindo de uma **instalação limpa do Debian 14 Forky com o ambiente KDE Plasma**, com todas as atualizações recomendadas instaladas. A **instalação mínima** pode dificultar a instalação do Davinci Resolve, fique atento nas mensagens de erro para instalar os pacotes extras que forem necessários.
+
+Enquanto o Forky não é lançado, o Debian recomenda instalar a testing com as imagens diárias do instalador, disponíveis na [página do Debian Installer](https://www.debian.org/devel/debian-installer/).
 
 > [!CAUTION]  
 >  O objetivo deste roteiro **não é ser um script totalmente automatizado**, se deseja uma ferramenta que configure tudo para você, sugiro testar o projeto [LinuxToys](https://github.com/psygreg/linuxtoys).
@@ -104,8 +108,6 @@ sudo ufw allow 42000:42001/tcp
 </br>
 
 ## Ativação de repositórios extras (DebMultimedia)
-A suíte `forky` já está disponível no DebMultimedia, por isso o arquivo de fontes usa esse nome.
-
 O repositório DebMultimedia é um projeto não oficial que disponibiliza alguns pacotes relacionados com codecs e ferramentas de multimídia que não podem ser distribuídos oficialmente no Debian por limitações de licença, como o FFMPEG com suporte a aceleração de hardware Nvidia, por exemplo. 
 
 Trata-se de um repositório de terceiros, então, esteja ciente disso. O projeto DebMultimedia não oferece o componente CONTRIB em seus servidores.
@@ -115,7 +117,7 @@ wget https://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multi
 sudo dpkg -i deb-multimedia-keyring_2024.9.1_all.deb
 ```
 
-Conforme o padrão DEB822, o formato correto do arquivo sources deverá ser salvo em "/etc/apt/sources.list.d/dmo.sources" com o conteúdo abaixo.
+Conforme o padrão DEB822, o formato correto do arquivo sources deverá ser salvo em "/etc/apt/sources.list.d/dmo.sources" com o conteúdo abaixo. No Debian 14 a suíte do DebMultimedia já se chama `forky`, é a única mudança nesta seção.
 
 ```
 Types: deb
@@ -136,9 +138,9 @@ sudo apt modernize-sources
 </br>
 
 ## Instalação drivers de vídeo proprietários Nvidia
-Para poder utilizar programas que usam vídeo acelerado por hardware, além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas. No Debian 14 Forky, o driver 550 dos repositórios do Debian não atende à versão mínima do CUDA exigida pelo DaVinci Resolve 20, por isso o repositório NVIDIA continua necessário.
+Para poder utilizar programas que usam vídeo acelerado por hardware, além do driver proprietário também é necessário instalar os pacotes CUDA e suas bibliotecas. No Debian 14 Forky o driver dos repositórios do próprio Debian continua sendo o 550, que não atende ao CUDA 12.8 exigido pelo Davinci Resolve 20, por isso o repositório da NVIDIA continua necessário.
 
-A NVIDIA ainda não publica um repositório Debian 14, então o guia usa o repositório Debian 13, que funciona no Forky.
+A NVIDIA ainda não publica um repositório `debian14`, por isso o roteiro continua usando o `debian13`, que funciona no Forky. Quando o repositório `debian14` for publicado, basta trocar o nome na URL do cuda-keyring abaixo.
 
 Por isso, iremos utilizar os [pacotes gerados pela própria NVIDIA](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Debian&target_version=13&target_type=deb_network) para instalar a versão mais recente do driver, do CUDA e também das bibliotecas auxiliares.
 
@@ -266,10 +268,21 @@ sudo apt install libxcb-composite0 libxcb-cursor0 libxcb-xinerama0 libxcb-xinput
 ```
 
 ---
-**Corrigir o erro com instalador gráfico do Resolve "libfuse2"**
-Caso o instalador gráfico do Davinci Resolve não abra, execute ele via terminal para ver qual é a mensagem de erro. Caso apareça algo similar a "*libfuse.so.2: cannot open shared object file*", consulte a observação abaixo sobre a disponibilidade do pacote no Forky.
+**Erro com instalador gráfico do Resolve "libfuse2"**
+Caso o instalador gráfico do Davinci Resolve não abra, execute ele via terminal para ver qual é a mensagem de erro. Caso apareça algo similar a "*libfuse.so.2: cannot open shared object file*" ou "*AppImages require FUSE to run*", leia a observação abaixo antes de tentar instalar qualquer pacote.
 
-No Forky, `libfuse2` e `libfuse2t64` não têm pacote candidato nos repositórios Debian ou DebMultimedia testados. A solução para esse erro ainda precisa ser confirmada.
+> [!WARNING]  
+> No Debian 14 Forky não existe mais o pacote `libfuse2` nem o `libfuse2t64`. O pacote-fonte `fuse` (versão 2.x) saiu da testing em 30/12/2025 e tem [pedido de remoção](https://bugs.debian.org/1123774) também na unstable, o Debian ficou só com o `fuse3`. O `sudo apt install libfuse2` do guia do Debian 13 não funciona no Forky.
+
+O instalador do Resolve é um AppImage, e o [projeto AppImage documenta](https://docs.appimage.org/user-guide/troubleshooting/fuse.html) o caminho para quem não tem FUSE: extrair o conteúdo e executar o `AppRun` extraído. É o mesmo método que o [MakeResolveDeb](https://www.danieltufvesson.com/makeresolvedeb) usa para abrir os instaladores do Resolve 17 ao 21. Lembre de alterar o nome do arquivo de instalação de acordo com a versão que você estiver instalando, a pasta `squashfs-root` pode ser apagada depois da instalação.
+
+```
+./DaVinci_Resolve_Studio_20.0b2_Linux.run --appimage-extract
+SKIP_PACKAGE_CHECK=1 squashfs-root/AppRun
+```
+
+> [!NOTE]  
+> Situação deste passo: a extração de um AppImage sem FUSE foi conferida num Debian testing limpo, mas ainda não foi testada com o instalador do Resolve no Forky. Se você testar, confirme se o instalador abre e instala normalmente.
 
 ---
 **Resolver problemas com libs do Davinci Resolve**
