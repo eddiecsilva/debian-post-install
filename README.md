@@ -34,7 +34,9 @@ Ele é testado apenas no Debian 13 Trixie, caso você queira seguir este roteiro
 
 > [!NOTE]  
 > LEIA COM ATENÇÃO OS ROTEIROS ANTES DE FORMATAR:
+>
 > Aqui você encontra uma versão deste roteiro para o **[Debian 12 - Bookworm](debian-12-bookworm.md)**.
+> 
 > Já existe um trabalho em progresso para validar este roteiro para a próxima versão que será o **[Debian 14 (Forky)](debian-14-forky.md)**.
 
 
