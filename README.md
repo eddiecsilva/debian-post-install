@@ -11,7 +11,6 @@
 </p>
 </br>
 
-> **Trabalho em progresso:** [rascunho para o Debian 14 (Forky)](debian-14-forky.md).
 
 # Sumário
 - Introdução
@@ -34,10 +33,10 @@ Esse roteiro funciona como um guia passo a passo para apoiar a pós-instalação
 Ele é testado apenas no Debian 13 Trixie, caso você queira seguir este roteiro em distros com outras bases, lembre-se de modificar os pacotes e comandos necessários por sua conta e risco, moldando conforme necessário para seu sistema.
 
 > [!NOTE]  
-> **Mudanças em relação ao [guia anterior](https://github.com/eddiecsilva/debian-post-install/blob/main/debian-12-bookworm.md)**
-> - Utilização do Debian 13 como base.
-> - Driver proprietário instalado dos repositórios da NVIDIA.
-> - KDE Plasma como ambiente padrão
+> LEIA COM ATENÇÃO OS ROTEIROS ANTES DE FORMATAR:
+> Aqui você encontra uma versão deste roteiro para o **[Debian 12 - Bookworm](debian-12-bookworm.md)**.
+> Já existe um trabalho em progresso para validar este roteiro para a próxima versão que será o **[Debian 14 (Forky)](debian-14-forky.md)**.
+
 
 </br>
 
