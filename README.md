@@ -82,6 +82,11 @@ sudo apt install ufw
 sudo ufw enable
 ```
 
+Liberar acesso ao compartilhamentos do Windows / SAMBA
+```
+sudo ufw allow Samba
+```
+
 Libera acesso na rede para o [KDEConnect](https://youtu.be/GTv0o0sOuyQ?si=nWhdiEEeHXKcFTaV)
 ```
 sudo ufw allow 1714:1764/udp
