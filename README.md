@@ -53,7 +53,7 @@ Minha máquina de trabalho utiliza uma GPU Nvidia RTX 5070TI e um processador AM
 
 | Para mais informações sobre o processo de instalação, assista o vídeo abaixo.                                                          | Para entender melhor as novidades e mudanças incorporadas no Debian 13 (Trixie), recomendo assistir este vídeo.         |
 | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [![Aprenda a domar o instalador do Debian Linux ](https://img.youtube.com/vi/QOuspK8MARk/mqdefault.jpg)](https://youtu.be/QOuspK8MARk) | [![O que vem por aí no Debian 13 ](https://img.youtube.com/vi/3V5wCdeNt6s/mqdefault.jpg)](https://youtu.be/3V5wCdeNt6s) |
+| [![Aprenda a domar o instalador do Debian Linux](https://img.youtube.com/vi/QOuspK8MARk/mqdefault.jpg)](https://youtu.be/QOuspK8MARk) | [![O que vem por aí no Debian 13](https://img.youtube.com/vi/3V5wCdeNt6s/mqdefault.jpg)](https://youtu.be/3V5wCdeNt6s) |
 
 </br>
 
